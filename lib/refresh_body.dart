@@ -40,7 +40,6 @@ class _RefreshBodyState extends State<RefreshBody> {
       _count += 20;
       _controller.loadComplete();
     } else {
-      _footerText = '没有更多了';
       _controller.loadNoData();
     }
 
