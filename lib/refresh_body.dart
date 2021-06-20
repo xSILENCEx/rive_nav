@@ -19,8 +19,6 @@ class _RefreshBodyState extends State<RefreshBody> {
 
   int _count = 40;
 
-  String _footerText = '加载更多';
-
   @override
   void dispose() {
     _controller.dispose();
