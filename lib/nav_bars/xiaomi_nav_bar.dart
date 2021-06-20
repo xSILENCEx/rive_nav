@@ -78,7 +78,7 @@ class _XiaomiNavBarState extends State<XiaomiNavBar> {
                   height: double.infinity,
                   child: RiveIcon(
                     rivPath: '${widget.navModle.filePath}$icon.riv',
-                    isSelected: _navTag == icon,
+                    animation: _navTag == icon ? 'active' : 'idle',
                   ),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,

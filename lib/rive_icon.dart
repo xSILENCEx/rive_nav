@@ -6,23 +6,15 @@ import 'package:rive/rive.dart';
 class RiveIcon extends StatefulWidget {
   const RiveIcon({
     Key? key,
-    required this.isSelected,
     required this.rivPath,
-    this.idle = 'idle',
-    this.active = 'active',
+    required this.animation,
   }) : super(key: key);
-
-  ///是否选中
-  final bool isSelected;
 
   ///文件路径
   final String rivPath;
 
-  ///闲置状态
-  final String idle;
-
-  ///激活状态
-  final String active;
+  ///动画名
+  final String animation;
 
   @override
   _RiveIconState createState() => _RiveIconState();
@@ -32,9 +24,13 @@ class _RiveIconState extends State<RiveIcon> {
   ///画布
   Artboard? _riveArtboard;
 
+  ///当前动画控制器
+  late SimpleAnimation _currentAnimationController;
+
   @override
   void initState() {
     super.initState();
+
     _init();
   }
 
@@ -45,10 +41,9 @@ class _RiveIconState extends State<RiveIcon> {
 
   @override
   void didUpdateWidget(covariant RiveIcon oldWidget) {
-    if (oldWidget.isSelected != widget.isSelected) {
-      widget.isSelected ? _select() : _unSelect();
+    if (oldWidget.animation != widget.animation) {
+      _update(widget.animation);
     }
-
     super.didUpdateWidget(oldWidget);
   }
 
@@ -58,26 +53,23 @@ class _RiveIconState extends State<RiveIcon> {
     super.dispose();
   }
 
-  ///选中
-  void _select() {
-    _riveArtboard?.removeController(SimpleAnimation(widget.idle));
-    _riveArtboard?.addController(SimpleAnimation(widget.active));
-  }
-
-  ///未选中
-  void _unSelect() {
-    _riveArtboard?.removeController(SimpleAnimation(widget.active));
-    _riveArtboard?.addController(SimpleAnimation(widget.idle));
-  }
-
   ///初始化
   Future<void> _init() async {
+    _currentAnimationController = SimpleAnimation(widget.animation);
+
     _riveArtboard =
         RiveFile.import(await rootBundle.load(widget.rivPath)).mainArtboard;
 
     setState(() {});
 
-    widget.isSelected ? _select() : _unSelect();
+    _update(widget.animation);
+  }
+
+  ///切换动画
+  void _update(String newAnimation) {
+    _riveArtboard?.removeController(_currentAnimationController);
+    _currentAnimationController = SimpleAnimation(newAnimation);
+    _riveArtboard?.addController(_currentAnimationController);
   }
 
   @override

@@ -58,7 +58,7 @@ class _AiqiyiNavBarState extends State<AiqiyiNavBar> {
               Expanded(
                 child: RiveIcon(
                   rivPath: '${widget.navModle.filePath}$icon.riv',
-                  isSelected: _navTag == icon,
+                  animation: _navTag == icon ? 'active' : 'idle',
                 ),
               ),
               Padding(

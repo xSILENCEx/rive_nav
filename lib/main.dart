@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rive_nav/navs.dart';
 
+import 'refresh_body.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -43,22 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: TabBarView(
-          children: navs
-              .map(
-                (NavModle nav) => Scaffold(
-                  backgroundColor: Colors.grey,
-                  body: Center(
-                    child: Text(
-                      nav.title,
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                  ),
-                  floatingActionButton: navBars(nav),
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.centerDocked,
-                ),
-              )
-              .toList(),
+          children: navs.map((NavModle nav) => RefreshBody(nav: nav)).toList(),
         ),
       ),
     );
